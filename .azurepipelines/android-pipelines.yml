@@ -1,0 +1,48 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: localtest
+  timeoutInMinutes: 60
+  displayName: "Local tests and APKs"
+  steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: 'mkdir -p ~/.gradle ; cp $(Build.SourcesDirectory)/.github/ci-gradle.properties ~/.gradle/gradle.properties'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '17'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
+    - task: Gradle@3
+      inputs:
+        gradleWrapperFile: 'gradlew'
+        workingDirectory: '$(Build.SourcesDirectory)/src/Mobile/Android'
+        tasks: 'build'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        sonarQubeRunAnalysis: false
+        spotBugsAnalysis: false
+    - task: Bash@3
+      displayName: 'Check build-logic'
+      inputs:
+        targetType: 'inline'
+        script: './gradlew check -p build-logic'
+        workingDirectory: '$(Build.SourcesDirectory)/src/Mobile/Android'
+    - task: Bash@3
+      displayName: 'Check spotless'
+      inputs:
+        targetType: 'inline'
+        script: './gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache'
+        workingDirectory: '$(Build.SourcesDirectory)/src/Mobile/Android'
+    
