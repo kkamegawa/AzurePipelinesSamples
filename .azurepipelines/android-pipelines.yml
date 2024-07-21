@@ -30,7 +30,7 @@ jobs:
         jdkSourceOption: 'PreInstalled'
     - task: Gradle@3
       inputs:
-        gradleWrapperFile: 'gradlew'
+        gradleWrapperFile: '$(Build.SourcesDirectory)/src/Mobile/Android/gradlew'
         workingDirectory: '$(Build.SourcesDirectory)/src/Mobile/Android'
         tasks: 'build'
         publishJUnitResults: true
