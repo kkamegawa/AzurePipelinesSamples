@@ -33,7 +33,7 @@ jobs:
         gradleWrapperFile: '$(Build.SourcesDirectory)/src/Mobile/Android/gradlew'
         workingDirectory: '$(Build.SourcesDirectory)/src/Mobile/Android'
         tasks: 'build'
-        publishJUnitResults: true
+        publishJUnitResults: false
         testResultsFiles: '**/TEST-*.xml'
         javaHomeOption: 'JDKVersion'
         sonarQubeRunAnalysis: false
