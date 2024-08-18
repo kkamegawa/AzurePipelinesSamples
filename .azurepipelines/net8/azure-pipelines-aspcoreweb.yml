@@ -11,6 +11,12 @@ trigger:
   paths:
     include:
     - src/net8corewebmvc
+    exclude:
+    - src/*
+    - .azurepipelines/*
+    - .gitignore
+    - LICENSE
+    - README.md
 pool:
   vmImage: ubuntu-latest
 
