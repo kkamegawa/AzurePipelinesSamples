@@ -3,6 +3,11 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
+pr:
+ branches:
+   include:
+    - net48fx
+
 trigger:
   branches:
     include:
@@ -10,7 +15,12 @@ trigger:
   paths:
     include:
     - src/netfx48webform
-
+    exclude:
+    - src/*
+    - .azurepipelines/*
+    - .gitignore
+    - LICENSE
+    - README.md
 pool:
   vmImage: 'windows-latest'
 
