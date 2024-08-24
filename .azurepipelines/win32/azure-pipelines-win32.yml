@@ -41,8 +41,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(Build.SourcesDirectory)/src/mfcapps/mfcsampleapp.sln'
-    platform: '$(BuildConfiguration)'
-    configuration: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    platform: '$(BuildPlatform)'
     clean: true
     maximumCpuCount: true
     msbuildArchitecture: 'x64'
