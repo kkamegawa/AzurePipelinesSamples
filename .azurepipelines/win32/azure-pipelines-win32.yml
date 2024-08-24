@@ -1,0 +1,48 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pr:
+ branches:
+   include:
+    - mfcapps
+
+trigger:
+  branches:
+    include:
+    - main
+    - mfcapps
+  paths:
+    include:
+    - src/mfcapps
+    exclude:
+    - src/*
+    - .azurepipelines/*
+    - .gitignore
+    - LICENSE
+    - README.md
+pool:
+  vmImage: windows-latest
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'x64'
+  buildConfiguration: 'Release'
+
+steps:
+- task: Ms
+- task: DotNetCoreCLI@2
+  displayName: 'restore dotnet core package'
+  inputs:
+    command: 'restore'
+    projects: '$(Build.SourcesDirectory)/src/net8corewebmvc'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    projects: '$(Build.SourcesDirectory)/src/net8corewebmvc'
+    arguments: '--configuration $(buildConfiguration)'
+

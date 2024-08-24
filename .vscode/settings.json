@@ -1,3 +1,5 @@
 {
-    "dotnet.preferCSharpExtension": true
+    "dotnet.preferCSharpExtension": true,
+    "dotnet.defaultSolution": "disable",
+    "azure-pipelines.1ESPipelineTemplatesSchemaFile": false
 }
