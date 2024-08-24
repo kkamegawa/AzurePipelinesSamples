@@ -25,24 +25,24 @@ trigger:
 pool:
   vmImage: windows-latest
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x64'
-  buildConfiguration: 'Release'
-
+strategy:
+ matrix:
+   x64: 
+     BuildPlatform: 'x64'
+     BuildConfiguration: 'Release'
+   x86:
+     BuildPlatform: 'x86'
+     BuildConfiguration: 'Release'
+   AnyCPU:
+     BuildPlatform: 'Arm64'
+     BuildConfiguration: 'Release'
+   
 steps:
-- task: Ms
-- task: DotNetCoreCLI@2
-  displayName: 'restore dotnet core package'
+- task: VSBuild@1
   inputs:
-    command: 'restore'
-    projects: '$(Build.SourcesDirectory)/src/net8corewebmvc'
-    feedsToUse: 'select'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    projects: '$(Build.SourcesDirectory)/src/net8corewebmvc'
-    arguments: '--configuration $(buildConfiguration)'
-
+    solution: '$(Build.SourcesDirectory)/src/mfcapps/mfcsampleapp.sln'
+    platform: '$(buildConfiguration)'
+    configuration: '$(BuildPlatform)'
+    clean: true
+    maximumCpuCount: true
+    msbuildArchitecture: 'x64'
