@@ -33,7 +33,7 @@ strategy:
    x86:
      BuildPlatform: 'x86'
      BuildConfiguration: 'Release'
-   AnyCPU:
+   Arm64:
      BuildPlatform: 'Arm64'
      BuildConfiguration: 'Release'
    
